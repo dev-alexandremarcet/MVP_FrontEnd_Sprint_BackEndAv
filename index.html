@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Secretaria Escolar (Cadastro de Alunos, Professores e Funcionários)</title>
+    <!-- <script defer src="scripts.js"></script> -->
+</head>
+<body>
+    <!-- Título do sistema de Cadastro de Alunos, Professores e Funcionários-->
+    <header>
+        <div class="title">
+            <h2>Secretaria Escolar (Cadastro de Alunos, Professores e Funcionários)</h2>
+        </div>
+    </header>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'first')" id="defaultOpen">Cadastro de Alunos</button>
+        <button class="tablinks" onclick="openTab(event, 'second')">Cadastro de Professores</button>
+        <button class="tablinks" onclick="openTab(event, 'third')">Cadastro de Funcionários</button>
+    </div>
+      
+    <!-- Cadastro de Alunos (Primeira Aba) -->
+    <div id="first" class="tabcontent"><br>
+        <!-- Lista com os alunos cadastrados na base de dados -->
+        <form class="formListagemAlunos">
+            <fieldset><legend><b>Listagem dos Alunos Cadastrados</b></legend>
+                <section class="itemsTabela">
+                    <table id="tblListAlunos">
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                            <th>Cidade</th>
+                            <th>CEP</th>
+                            <th>Unidade Escolar</th>
+                            <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="20px" height="20px"></th>
+                        </tr>
+                    </table>
+                </section>
+            </fieldset>
+        </form><br><br>
+        <!-- Cadastra um novo aluno à base de dados -->
+        <form class="formCadastroAlunos">
+            <fieldset><legend><b>Cadastrar Novo Aluno</b></legend><br>
+                <section class="newAluno">
+                    <label>Matrícula
+                        <input type="text" id="newMatriculaAluno" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                    </label>
+                    <label>Nome
+                        <input type="text" id="newNomeAluno" placeholder="Nome do aluno" size="40">
+                    </label>
+                    <label>CPF
+                        <input type="text" id="newCPFAluno" placeholder="apenas dígitos" maxlength="11" size="12">
+                    </label>
+                    <label>Telefone
+                        <input type="text" id="newTelefoneAluno" placeholder="apenas dígitos com DDD" maxlength="11" size="18">
+                    </label>
+                </section><br>
+                <section class="newAluno">
+                    <label>CEP
+                        <input type="text" id="newCEPAluno" placeholder="apenas dígitos" maxlength="8" size="12">
+                        <button type="button" onclick='pesquisaAlunoCEP(document.getElementById("newCEPAluno").value)' class="btnPesqCEP">Pesquisa CEP</button>
+                    </label><br><br>
+                    <label>Endereço
+                        <input type="text" id="newEnderecoAluno" placeholder="Endereço completo com bairro" size="60">
+                    </label>
+                    <label>Cidade
+                        <input type="text" id="newCidadeAluno" placeholder="Cidade" size="25" readonly>
+                    </label>
+                    <label>Unidade Escolar
+                        <input type="text" id="newUnidEscAluno" placeholder="Unidade Escolar" size="25" readonly><br>
+                    </label>
+                </section><br>
+                <button type="button" onclick="newItemAluno()" class="addBtn">Adicionar</button><br>
+            </fieldset>
+        </form><br>
+        <!-- Pesquisa por um aluno na base de dados -->
+        <form class="formPesquisarAluno">
+            <fieldset><legend><b>Pesquisar Aluno</b></legend>
+                <label>Matrícula
+                    <input type="text" id="pesqMatriculaAluno" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                </label>
+                <button type="button" onclick="getAluno()" class="pesqBtn">Pesquisar</button><br><br>
+                <fieldset><legend><b>Aluno pesquisado</b></legend>
+                    <section class="itemsTabela">
+                        <table id="tblPesquisaAlunos">
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th>Cidade</th>
+                                <th>CEP</th>
+                                <th>Unidade Escolar</th>
+                            </tr>
+                        </table>
+                    </section>
+                </fieldset><br>
+                <button type="button" onclick="LimpaListPesquisaAlunos()" class="pesqBtn">Limpar Pesquisa</button><br>
+            </fieldset>
+        </form><br>    
+        <!-- Atualização dos dados de um aluno na base de dados  -->  
+        <form class="formAtualizarAluno">
+            <fieldset><legend><b>Atualizar Dados de Aluno</b></legend><br>
+                <label>
+                    <input type="text" id="pesqUpdMatriculaAluno" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                </label>
+                <button type="button" onclick="getAlunoUpdate()" class="updBtn">Pesquisar</button><br><br>
+                <fieldset><legend><b>Dados do Aluno para Atualização</b></legend><br>
+                    <section class="updAluno">
+                        <label>Matrícula
+                            <input type="text" id="updMatriculaAluno" placeholder="3 letras + 3 dígitos" maxlength="6" size="13" readonly>
+                        </label>
+                        <label>Nome
+                            <input type="text" id="updNomeAluno" placeholder="Nome do aluno" size="40">
+                        </label>
+                        <label>CPF
+                            <input type="text" id="updCPFAluno" placeholder="apenas dígitos" maxlength="11" size="12" readonly>
+                        </label>
+                        <label>Telefone
+                            <input type="text" id="updTelefoneAluno" placeholder="apenas dígitos com DDD" maxlength="11" size="18">
+                        </label><br><br>
+                        <label>CEP
+                            <input type="text" id="updCEPAluno" placeholder="apenas dígitos" maxlength="8" size="12" readonly>
+                        </label>
+                        <label>Endereço
+                            <input type="text" id="updEnderecoAluno" placeholder="Endereço completo com bairro" size="60" readonly>
+                        </label>
+                        <label>Cidade
+                            <input type="text" id="updCidadeAluno" placeholder="Cidade" size="25" readonly>
+                        </label>
+                        <label>Unidade Escolar
+                            <input type="text" id="updUnidEscAluno" placeholder="Unidade Escolar" size="25" readonly><br>
+                        </label><br>
+                    </section>
+                    <button onclick="atualizaDadosAluno()" class="updBtn">Atualizar</button><br>
+                </fieldset>
+            </fieldset>
+        </form><br>
+    </div>
+    <!-- Cadastro de Professores (Segunda Aba) -->
+    <div id="second" class="tabcontent"><br>
+        <!-- Lista com os professores cadastrados na base de dados -->
+        <form class="formListagemProf">
+            <fieldset><legend><b>Listagem dos Professores Cadastrados</b></legend>
+                <section class="itemsTabela">
+                    <table id="tblListProfessores">
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                            <th>Cidade</th>
+                            <th>CEP</th>
+                            <th>Disciplina</th>
+                            <th>Unidade Escolar</th>
+                            <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="20px" height="20px"></th>
+                        </tr>
+                    </table>
+                </section>
+            </fieldset>
+        </form>
+        <!--  Cadastra um novo professor na base de dados  -->
+        <form class="formCadastroProfessor">
+            <fieldset><legend><b>Cadastrar Novo Professor</b></legend><br>
+                <section class="newProfessor">
+                    <label>Matrícula
+                        <input type="text" id="newMatriculaProf" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                    </label>
+                    <label>Nome
+                        <input type="text" id="newNomeProf" placeholder="Nome do Professor" size="40">
+                    </label>
+                    <label>CPF
+                        <input type="text" id="newCPFProf" placeholder="apenas dígitos" maxlength="11" size="12">
+                    </label>
+                    <label>Telefone
+                        <input type="text" id="newTelefoneProf" placeholder="apenas dígitos com DDD" maxlength="11" size="18">
+                    </label>
+                    <label>Disciplina
+                        <input type="text" id="newDiscProf" placeholder="Disciplina" size="20">
+                    </label>
+                </section><br>
+                <section class="newProfessor">
+                    <label>CEP
+                        <input type="text" id="newCEPProf" placeholder="apenas dígitos" maxlength="8" size="12">
+                        <button type="button" onclick='pesquisaCEPProf(document.getElementById("newCEPProf").value)' class="btnPesqCEP">Pesquisa CEP</button>
+                    </label><br><br>
+                    <label>Endereço
+                        <input type="text" id="newEnderecoProf" placeholder="Endereço completo com bairro" size="60">
+                    </label>
+                    <label>Cidade
+                        <input type="text" id="newCidadeProf" placeholder="Cidade" size="25" readonly>
+                    </label>
+                    <label>Unidade Escolar
+                        <input type="text" id="newUnidEscProf" placeholder="Unidade Escolar" size="25">
+                    </label>
+                </section><br>
+                <button type="button" onclick="newItemProf()" class="addBtn">Adicionar</button><br>
+            </fieldset>
+        </form><br>
+        <!-- Pesquisa por um professor na base de dados -->
+        <form class="formPesquisarProfessor">
+            <fieldset><legend><b>Pesquisar Professor</b></legend>
+                <label>Matrícula
+                    <input type="text" id="pesqMatriculaProf" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                </label>
+                <button type="button" onclick="getProf()" class="pesqBtn">Pesquisar</button><br><br>
+                <fieldset><legend><b>Professor pesquisado</b></legend>
+                    <section class="itemsTabela">
+                        <table id="tblPesquisaProf">
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th>Cidade</th>
+                                <th>CEP</th>
+                                <th>Disciplina</th>
+                                <th>Unidade Escolar</th>
+                            </tr>
+                        </table>
+                    </section>
+                </fieldset><br>
+                <button type="button" onclick="LimpaListPesquisaProf()" class="pesqBtn">Limpar Pesquisa</button><br>
+            </fieldset>
+        </form><br>      
+    </div>
+    <!--  Cadastro de Funcionários (Terceira Aba)  -->
+    <div id="third" class="tabcontent"><br>
+        <!-- Lista com os funcionários cadastrados na base de dados -->
+        <form class="formListagemFuncionarios">
+            <fieldset><legend><b>Listagem dos Funcionários Cadastrados</b></legend>
+                <section class="itemsTabela">
+                    <table id="tblListFuncionarios">
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                            <th>Cidade</th>
+                            <th>CEP</th>
+                            <th>Cargo</th>
+                            <th>Unidade Escolar</th>
+                            <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="20px" height="20px"></th>
+                        </tr>
+                    </table>
+                </section>
+            </fieldset>
+        </form>
+        <!--  Cadastra um novo funcionário na base de dados  -->
+        <form class="formCadastroFuncionario">
+            <fieldset><legend><b>Cadastrar Novo Funcionário</b></legend><br>
+                <section class="newFuncionario">
+                    <label>Matrícula
+                        <input type="text" id="newMatriculaFunc" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                    </label>
+                    <label>Nome
+                        <input type="text" id="newNomeFuncionario" placeholder="Nome do Funcionário" size="40">
+                    </label>
+                    <label>CPF
+                        <input type="text" id="newCPFFuncionario" placeholder="apenas dígitos" maxlength="11" size="12">
+                    </label>
+                    <label>Telefone
+                        <input type="text" id="newTelefoneFunc" placeholder="apenas dígitos com DDD" maxlength="11" size="18">
+                    </label>
+                    <label>Cargo (ou Função)
+                        <input type="text" id="newCargoFunc" placeholder="Cargo (ou Função)" size="30">
+                    </label><br><br>
+                </section>
+                <section class="newFuncionario">
+                    <label>CEP
+                        <input type="text" id="newCEPFuncionario" placeholder="apenas dígitos" maxlength="8" size="12">
+                        <button type="button" onclick='pesquisaCEPFunc(document.getElementById("newCEPFuncionario").value)' class="btnPesqCEP">Pesquisa CEP</button>
+                    </label><br><br>
+                    <label>Endereço
+                        <input type="text" id="newEnderecoFunc" placeholder="Endereço completo com bairro" size="60">
+                    </label>
+                    <label>Cidade
+                        <input type="text" id="newCidadeFunc" placeholder="Cidade" size="25" readonly>
+                    </label>
+                    <label>Unidade Escolar
+                        <input type="text" id="newUnidEscFunc" placeholder="Unidade Escolar" size="25">
+                    </label>
+                    
+                </section><br>
+                <button type="button" onclick="newItemFunc()" class="addBtn">Adicionar</button><br>
+            </fieldset>
+        </form><br>
+        <!-- Pesquisa por um funcionário na base de dados -->
+        <form class="formPesquisarFuncionario">
+            <fieldset><legend><b>Pesquisar Funcionário</b></legend>
+                <label>Matrícula
+                    <input type="text" id="pesqMatriculaFunc" placeholder="3 letras + 3 dígitos" maxlength="6" size="13">
+                </label>
+                <button type="button" onclick="getFuncionario()" class="pesqBtn">Pesquisar</button><br><br>
+                <fieldset><legend><b>Funcionário pesquisado</b></legend>
+                    <section class="itemsTabela">
+                        <table id="tblPesquisaFuncionarios">
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th>Cidade</th>
+                                <th>CEP</th>
+                                <th>Cargo</th>
+                                <th>Unidade Escolar</th>
+                            </tr>
+                        </table>
+                    </section>
+                </fieldset><br>
+                <button type="button" onclick="LimpaListPesquisaFunc()" class="pesqBtn">Limpar Pesquisa</button><br>
+            </fieldset>
+        </form><br>      
+    </div>   
+    <script src="scripts.js"></script>   
+</body>
+</html>
